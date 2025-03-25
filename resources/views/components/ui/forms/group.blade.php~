@@ -1,0 +1,20 @@
+@props([
+    'label' => null,
+    'type' => 'text',
+    'for' => null,
+    'error' => null,
+    'placeholder'=>'default',
+ ])
+<div class="mb-4">
+    @if($label)
+        <x-ui.forms.label :for="$for">{{ $label }}</x-ui.forms.label>
+    @endif
+    @if($type)
+        <x-ui.forms.input :id="$for" :placeholder="$placeholder"></x-ui.forms.input>
+    @endif
+    <p>{{ $slot }}</p>
+
+    @if($error)
+        <x-ui.error :error="$error" />
+    @endif
+</div>

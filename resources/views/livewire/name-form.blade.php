@@ -1,72 +1,55 @@
-<flux:container class="max-w-md mx-auto mt-6">
-    <div class="bg-gradient-to-br from-pink-400 to-rose-500 rounded-2xl shadow-lg p-8">
-        <div class="flex items-center justify-between mb-6">
-            <div class="text-xl font-bold text-white flex items-center gap-2">
-                <span class="text-2xl">📝</span>
-                Registratieformulier
-            </div>
+<div class="p-6 bg-white shadow-md rounded-lg max-w-md mx-auto">
+    <h2 class="text-xl font-semibold mb-4 text-center">Registratieformulier</h2>
+    {{-- Succesbericht --}}
+    @if (session()->has('success'))
+        <div class="bg-green-100 text-green-700 p-3 rounded mb-4 text-sm text-center">
+            {{ session('success') }}
         </div>
-
-        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-8">
-            @if (session()->has('success'))
-                <div class="bg-green-400/20 backdrop-blur-sm text-white p-4 rounded-lg mb-6 text-sm text-center">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            {{-- Voornaam --}}
-            <div class="mb-4">
-                <label for="firstName" class="block mb-2 font-medium text-white/90">Voornaam</label>
-                <input type="text"
-                    id="firstName"
-                    wire:model.live="firstName"
-                    class="w-full bg-white/10 border-white/20 border rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 @error('firstName') border-red-400/50 focus:ring-red-400/30 @enderror"
-                    placeholder="Typ je voornaam...">
-                @error('firstName')
-                    <p class="text-red-200 text-sm mt-2">{{ $message }}</p>
-                @enderror
-            </div>
-
-            {{-- Achternaam --}}
-            <div class="mb-4">
-                <label for="lastName" class="block mb-2 font-medium text-white/90">Achternaam</label>
-                <input type="text"
-                    id="lastName"
-                    wire:model.live="lastName"
-                    class="w-full bg-white/10 border-white/20 border rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 @error('lastName') border-red-400/50 focus:ring-red-400/30 @enderror"
-                    placeholder="Typ je achternaam...">
-                @error('lastName')
-                    <p class="text-red-200 text-sm mt-2">{{ $message }}</p>
-                @enderror
-            </div>
-
-            {{-- E-mail --}}
-            <div class="mb-6">
-                <label for="email" class="block mb-2 font-medium text-white/90">E-mailadres</label>
-                <input type="email"
-                    id="email"
-                    wire:model.live="email"
-                    class="w-full bg-white/10 border-white/20 border rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 @error('email') border-red-400/50 focus:ring-red-400/30 @enderror"
-                    placeholder="Typ je e-mailadres...">
-                @error('email')
-                    <p class="text-red-200 text-sm mt-2">{{ $message }}</p>
-                @enderror
-            </div>
-
-            {{-- Actieknoppen --}}
-            <div class="flex justify-between items-center">
-                <button
-                    wire:click="submit"
-                    class="px-6 py-3 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-lg transform hover:-translate-y-0.5 transition-all duration-200">
-                    Verzenden
-                </button>
-                <button
-                    wire:click="resetForm"
-                    type="button"
-                    class="text-white/80 hover:text-white transition-colors duration-200">
-                    Reset
-                </button>
-            </div>
+    @endif
+    {{-- Voornaam --}}
+    <x-ui.forms.group label="Voornaam" for="firstName">
+        <x-ui.forms.input id="firstName" model="firstName" />
+    </x-ui.forms.group>
+    {{-- Achternaam --}}
+    <x-ui.forms.group label="Achternaam" for="lastName">
+        <x-ui.forms.input id="lastName" model="lastName" />
+    </x-ui.forms.group>
+    {{-- E-mail --}}
+    <x-ui.forms.group label="E-mailadres" for="email">
+        <x-ui.forms.input id="email" type="email" model="email" />
+    </x-ui.forms.group>
+    {{-- Geslacht (radio) --}}
+    <x-ui.forms.group label="Geslacht" for="gender">
+        <div class="space-x-4">
+            <x-ui.forms.radio name="gender" value="man" model="gender" label="Man" />
+            <x-ui.forms.radio name="gender" value="vrouw" model="gender" label="Vrouw" />
+            <x-ui.forms.radio name="gender" value="ander" model="gender" label="Ander" />
         </div>
+    </x-ui.forms.group>
+    {{-- Rolkeuze (select) --}}
+    <x-ui.forms.group label="Rol" for="role">
+        <x-ui.forms.select id="role" model="role">
+            <option value="">Kies je rol</option>
+            <option value="student">Student</option>
+            <option value="developer">Developer</option>
+            <option value="docent">Docent</option>
+        </x-ui.forms.select>
+    </x-ui.forms.group>
+    {{-- Opmerkingen (textarea) --}}
+    <x-ui.forms.group label="Opmerkingen" for="comments">
+        <x-ui.forms.textarea id="comments" model="comments" placeholder="Schrijf hier je opmerkingen..."></x-ui.forms.textarea>
+    </x-ui.forms.group>
+    {{-- Checkbox akkoord --}}
+    <x-ui.forms.group label=" ">
+        <x-ui.forms.checkbox
+            id="terms"
+            model="accepted"
+            label="Ik ga akkoord met de voorwaarden" />
+    </x-ui.forms.group>
+    {{-- Verstuurknop --}}
+    <div class="text-right mt-6">
+        <x-ui.button wire:click="submit">
+            Verzenden
+        </x-ui.button>
     </div>
-</flux:container>
+</div>
